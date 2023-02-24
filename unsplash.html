@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <style>
+        body {
+            background: url();
+        }
+
+        .box {
+            display: flex;
+            margin: auto;
+            margin-bottom: 2rem;
+        }
+
+        .container {
+            background-color: #333;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            column-gap: 20px;
+            row-gap: 20px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all ease 0.3s;
+        }
+
+        img:hover {
+            transform: scale(1.02)
+        }
+
+      
+        
+    </style>
+</head>
+
+<body>
+  
+
+    <h1 style="text-align: center;">My Image Gallery</h1>
+    <input class="box" type="text" placeholder="Enter Topic" required>
+    <button class="box">Submit</button>
+
+    <div class="container">
+
+    </div>
+    <script>
+        var submitBtn = document.querySelector("button.box");
+        submitBtn.addEventListener("click", function () {
+            var inputField = document.querySelector(".box");
+            var search = inputField.value;
+
+            const container = document.querySelector('.container');
+            function showImages(url) {
+
+                let img = document.createElement('img');
+                img.src = url;
+                container.appendChild(img);
+            }
+            const id = "6ln4MFXGml8lLHm0z3l24dDm6Qaiq4-bxvS4_vnfbf4"
+
+            const length = 30
+            const api_url = `https://api.unsplash.com/search/photos?page=1&query=${search}&client_id=${id}&per_page=${length}`;
+            fetch(api_url).then((data) => data.json())
+                .then((final) => {
+
+                    for (i = 0; i < length; i++) {
+                        showImages(final.results[i].urls.regular)
+                    }
+                }).catch((e) => {
+                    console.log(e)
+                })
+        });
+
+    </script>
+</body>
+
+</html>
